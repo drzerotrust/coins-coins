@@ -1,5 +1,6 @@
 telegram_bot.py
 venv
 *.swp
+__pycache__
 
 

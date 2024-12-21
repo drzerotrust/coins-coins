@@ -8,6 +8,7 @@ The script only support solana coins -- uses dexscreener api, tweak options or c
 
 > if you run with --risk-sentiment-analysis ensure that you are running the script with proxysocks or proxies, since it uses `rugcheck.xyz` and they have a rate limiter.
 
+for dexscreen
 
 ```
 usage: dexter.py [-h] [--min-liquidity MIN_LIQUIDITY] [--min-marketcap-usd MIN_MARKETCAP_USD] [--max-marketcap-usd MAX_MARKETCAP_USD] [--max-age-hours MAX_AGE_HOURS] [--min-24h-sells MIN_24H_SELLS] [--min-24h-buys MIN_24H_BUYS] [--min-volume MIN_VOLUME]
@@ -38,4 +39,21 @@ options:
 
 ```
 
+for pumpfun
 
+```
+usage: pump_fun.py [-h] [--market-cap-from MARKET_CAP_FROM] [--market-cap-to MARKET_CAP_TO] [--volume-from VOLUME_FROM] [--name-match NAME_MATCH] [--check-if-holders-are-scammers CHECK_IF_HOLDERS_ARE_SCAMMERS]
+
+Fetch coins by market cap range from advanced pump fun reversed frontend api.
+
+options:
+  -h, --help            show this help message and exit
+  --market-cap-from MARKET_CAP_FROM
+                        Minimum market cap
+  --market-cap-to MARKET_CAP_TO
+                        Maximum market cap (default: 190000)
+  --volume-from VOLUME_FROM
+                        volume from
+  --name-match NAME_MATCH
+                        string to match a coins name
+```
