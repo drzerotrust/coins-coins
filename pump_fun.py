@@ -5,8 +5,6 @@ import sys
 
 import requests
 
-sys.path.append("..")
-
 from logger import get_logger
 
 
@@ -97,6 +95,12 @@ if __name__ == "__main__":
         "--name-match",
         type=str,
         help="string to match a coins name"
+    )
+    parser.add_argument(
+        "--check-if-holders-are-scammers",
+        type=bool,
+        default=False,
+        help="Run a check to see if holders are blacklisted as scammers"
     )
 
     args = parser.parse_args()
