@@ -4,7 +4,6 @@ import time
 
 import requests
 
-
 from logger import get_logger
 
 
@@ -72,14 +71,18 @@ def analyze_token(token, url=rug_check_url):
             "is_good_token": stats["score"] >= 500 and not stats["rugged"],
             "has_significant_liquidity": stats["total_market_liquidity"] > 50000,
             "holder_concentration": {
-                "high_concentration": any(holder["percentage"] > 30 for holder in stats["top_holders_distribution"]),
-                "low_concentration": all(holder["percentage"] < 5 for holder in stats["top_holders_distribution"]),
+                "high_concentration": any(
+                    holder["percentage"] > 30 for holder in stats["top_holders_distribution"]
+                ),
+                "low_concentration": all(
+                    holder["percentage"] < 5 for holder in stats["top_holders_distribution"]
+                ),
             },
         }
         
     
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching token data: {e}")
+    except requests.exceptions.RequestException as error:
+        print(f"Error fetching token data: {error}")
         return None
 
     return {"stats": stats, "analysis": analysis}
@@ -98,6 +101,7 @@ def main(args):
 
     for each in data:
         time.sleep(0.25)
+
         token_address = each.get("token_address")
         try:
             resp = requests.get(
@@ -121,9 +125,9 @@ def main(args):
         min_24h_sells = args.min_24h_sells
         min_volume_24h = args.min_volume
         
-        ############################
+        ###################################################
         # sum of buys and sells during the last 5 minutes.
-        ####################
+        ###################################################
 
         min_5m_txns = args.min_5m_txns
         current_time_ms = int(time.time() * 1000)
@@ -157,25 +161,30 @@ def main(args):
 
         if filtered_pairs:
             for p in filtered_pairs:
+                
                 logger.info("")
                 logger.info("[CoiN] *discalimer* research coin before hand; $v$")
                 name = p["baseToken"]["name"]
                 symbol = p["baseToken"]["symbol"]
                 market_cap = p["marketCap"]
+                
                 try:
                     liquidity = p["liquidity"]["usd"]
                 except KeyError:
                     liquidity = 0
+                
                 pair_url = p["url"]
                 volume_24h = p["volume"]["h24"]
                 buys_24 = p["txns"]["h24"]["buys"]
                 sells_24 = p["txns"]["h24"]["sells"]
                 age = (current_time_ms - p["pairCreatedAt"]) / (1000.0 * 60.0 * 60.0)
                 price = p.get("priceUsd", "no-price-set") 
+                
                 if price == "no-price-set":
                     price = 0.00
                 else:
                     price = float(price)
+                
                 logger.info(f"Token Name: {name} ({symbol})")
                 logger.info(f"Token address: {token_address}")
                 logger.info(f"  Price: {price}")
@@ -209,7 +218,10 @@ def main(args):
                         else:
                             logger.info(f"  {key}: {value}")
                     
+                    ################################
                     # TOKEN ANALYSIS
+                    ################################
+                    
                     logger.info("")
                     logger.info("Token Analysis:")
                     for key, value in result["analysis"].items():
