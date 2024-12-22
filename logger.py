@@ -12,11 +12,11 @@ class CustomFormatter(logging.Formatter):
         elif record.levelno == logging.WARNING:
             level_color = Fore.YELLOW
         elif record.levelno == logging.INFO:
-            level_color = Fore.WHITE
+            level_color = Fore.BLUE
         else:
             level_color = Fore.GREEN
         
-        log_fmt = f"{Fore.BLUE}{self.x_id}{Fore.GREEN}"
+        log_fmt = f"{Fore.GREEN}{self.x_id}{Fore.WHITE}"
         log_fmt += f"%(asctime)s{Style.RESET_ALL}"
         log_fmt += f"{level_color} %(levelname)s {Style.RESET_ALL}%(message)s"
 

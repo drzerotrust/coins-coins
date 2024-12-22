@@ -1,0 +1,56 @@
+version: '3'
+
+services:
+  # I have added two more proxies 
+  proxy:
+    container_name: local_proxy
+    image: local_proxy
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    restart: unless-stopped
+    expose:
+      - 666
+      - 6666
+    networks:
+      local_proxy:
+        ipv4_address: 172.28.0.2
+
+  proxy2:
+    container_name: local_proxy2
+    image: local_proxy
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    restart: unless-stopped
+    expose:
+      - 666
+      - 6666
+    networks:
+      local_proxy:
+        ipv4_address: 172.28.0.3
+
+  proxy3:
+    container_name: local_proxy3
+    image: local_proxy
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    restart: unless-stopped
+    expose:
+      - 666
+      - 6666
+    networks:
+      local_proxy:
+        ipv4_address: 172.28.0.4
+
+
+
+networks:
+  local_proxy:
+    name: local_proxy
+    ipam:
+      config:
+        - subnet: 172.28.0.0/24
+
+# change network subnets or service ports

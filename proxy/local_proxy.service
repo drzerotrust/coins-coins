@@ -1,0 +1,17 @@
+[Unit]
+Description=Local Proxy
+After=network.target
+
+[Service]
+User=puppy
+Group=puppy
+WorkingDirectory=/home/puppy/gitrepos/tunel
+ExecStart=docker compose up
+Restart=always
+RestartSec=200
+StartLimitIntervalSec=60
+# sanity check for overload.
+StartLimitBurst=3
+
+[Install]
+WantedBy=multi-user.target

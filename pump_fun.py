@@ -32,13 +32,34 @@ def main(args):
     matches_list = []
     for coin in data:
         name = coin.get("name").lower()
+
+        ####################################################
+        # Check num holders
+        ####################################################
+        
+        num_holders = coin.get("numHolders")
+        if args.min_holders is not None:
+            if num_holders >= args.min_holders:
+                pass
+            else:
+                continue
+        
+        ###################################################
+        # Check name match
+        ###################################################
+
         if args.name_match is None:
             matches_list.append(coin)
         if args.name_match is not None and name.__contains__(args.name_match):
             matches_list.append(coin)
 
+
     logger.info("[ReSulTs] foUnd: %s" % len(matches_list))
-    matches_list = sorted(matches_list, key=lambda x: x["marketCap"], reverse=True)
+    matches_list = sorted(
+        matches_list, 
+        key=lambda x: x["marketCap"], 
+        reverse=True
+    )
     for coin in matches_list:
         coin_id = coin.get("coinMint")
         dev = coin.get("dev")
@@ -52,12 +73,7 @@ def main(args):
         sniper_count = coin.get("sniperCount")
         current_market_price = coin.get("currentMarketPrice")
         holders = coin.get("holders")
-
-        ##################################################################
-        # TO DO:
-        #     Holder tokens
-        ##################################################################
-
+         
         logger.info("[CoIn Info]")
         logger.info(f"  Name: {name}")
         logger.info(f"  Ticker: {ticker}")
@@ -102,12 +118,10 @@ if __name__ == "__main__":
         help="string to match a coins name"
     )
     parser.add_argument(
-        "--check-if-holders-are-scammers",
-        type=bool,
-        default=False,
-        help="Run a check to see if holders are blacklisted as scammers"
+        "--min-holders",
+        type=int,
+        help="max holders of a coin"
     )
-
     args = parser.parse_args()
 
     main(args)

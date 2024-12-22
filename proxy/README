@@ -1,0 +1,34 @@
+****HttpTunnels con tor para programas****
+
+[INFO]
+
+Tienes algun programa que necesita proxies? no quieres pagar servicios como
+storm proxy o webshare proxies, aca tienes tu propia proxylist.
+
+No esta expuesto al mundo abierto -- amenos que te despistes y 
+tengas un descable en port forwarding; es para uso local.
+
+Si las maquinas en tu LAN pueden hablar unas a las otras entonces se 
+pueden conectar si haces algo mas de configuracion.
+
+[DESPLIEGE]
+
+1) `docker compose up` o `docker-compose up`
+2) Espera a que Bootstrapped sea 100%
+3) Ve los ejemplos en 'ejemplos'
+
+[EXTRA]
+
+1) Agrege un service file para mantener estos proxies bajo el control de
+   systemd -- solo tienes que seguir estos pasos:
+   (De preferencia con sudo)
+   ---------------------------------------------
+   ~$ cp local_proxy.service /etc/systemd/system/local_proxy.service
+   ~$ systemctl enable local_proxy.service
+   ~$ systemctl start local_proxy.service
+   ~$ systemctl status local_proxy.service
+    ---------------------------------------------
+2) Puedes configurar mozilla para usar este proxy.
+3) Puedes agregar mas configuraciones en config.conf como EntryNodes y ExitNodes
+4) Funiciona de manera espectacular con programas que usan tcp como ssh, traceroute,
+   nmap, etc.
